@@ -1,5 +1,5 @@
 # vue-component
-
+ 
 > A Vue.js project
 
 ## Build Setup
