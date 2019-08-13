@@ -1,7 +1,14 @@
 <template>
     <!-- 所有的内容被根节点包含起来 -->
     <div>
-        <v-header></v-header>
+        <h1>news组件广播数据</h1>
+        <button @click="emitNews()">news广播</button>
+        <v-header :title="msg" :func="run"></v-header>
+        <br>
+        <hr>
+        <h1>主动获取方法</h1>
+        <v-header-active ref="header"></v-header-active>
+        <button @click="getActiveSubData()">主动获取子组件</button>
         <h2>{{msg}}</h2>
         <button v-on:click="run()">按钮</button>
         <v-life v-if="flag"></v-life>
@@ -16,7 +23,9 @@
     </div>
 </template>
 <script>
+import VueEvent from '../model/VueEvent'
 import Header from './Header'
+import HeaderActive from './HeaderActive'
 import Life from './Life'
 import Axios from 'axios'
 export default {
@@ -54,10 +63,19 @@ export default {
             .finally( ()=> {
                 // always executed
             });
+        },run(data){
+            alert("home组件"+data);
+        },getActiveSubData(){
+            alert(this.$refs.header);
+            console.log(this.$refs.header);
+            this.$refs.header.run();
+        },emitNews(){
+            VueEvent.$emit('to-news',this.msg)
         }
     },components:{
         'v-header':Header,
-        'v-life':Life
+        'v-life':Life,
+        'v-header-active':HeaderActive
     },mounted() {
        // this.getData();
        this.getDataByAxios();
